@@ -28,79 +28,85 @@ function showSearchingIndicator() {
 function hideSearchingIndicator() {
   document.getElementById("searchingIndicator").style.display = "none";
 }
-// async function performSearch() {
-//   const searchTerm = document.getElementById("searchInput").value.toLowerCase();
-//   console.log("Performing search for:", searchTerm);
-//   if (!jsonData) {
-//     try {
-//       console.log("Fetching JSON data...");
-//       const response = await fetch("/data/search-data.json");
-//       jsonData = await response.json();
-//       console.log("JSON data loaded. Total items:", jsonData.length);
-//       console.log("Sample item:", JSON.stringify(jsonData[0], null, 2));
-//     } catch (error) {
-//       console.error("Error loading JSON:", error);
-//       hideSearchingIndicator();
-//       return;
-//     }
-//   }
-//   const results = jsonData.filter((item) => {
-//     if (typeof item === "object" && item !== null) {
-//       return Object.entries(item).some(([key, value]) => {
-//         if (
-//           typeof value === "string" &&
-//           value.toLowerCase().includes(searchTerm)
-//         ) {
-//           return true;
-//         }
-//         return false;
-//       });
-//     }
-//     return false;
-//   });
-//   displayResults(results);
-// }
 async function performSearch() {
-  const searchTerm = document
-    .getElementById("searchInput")
-    .value.toLowerCase()
-    .trim();
-
-  // Show indicator while searching
-  showSearchingIndicator();
-
-  // Load JSON data if not already loaded
+  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+  console.log("Performing search for:", searchTerm);
   if (!jsonData) {
     try {
+      console.log("Fetching JSON data...");
       const response = await fetch("/data/search-data.json");
       jsonData = await response.json();
+      console.log("JSON data loaded. Total items:", jsonData.length);
+      console.log("Sample item:", JSON.stringify(jsonData[0], null, 2));
     } catch (error) {
       console.error("Error loading JSON:", error);
-      hideSearchingIndicator(); // Hide indicator on failure
+      hideSearchingIndicator();
       return;
     }
   }
+  const results = jsonData.filter((item) => {
+    if (typeof item === "object" && item !== null) {
+      return Object.entries(item).some(([key, value]) => {
+        if (
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchTerm)
+        ) {
+          return true;
+        }
+        return false;
+      });
+    }
+    return false;
+  });
+  displayResults(results);
+}
+// async function performSearch() {
+//   const searchTerm = document
+//     .getElementById("searchInput")
+//     .value.toLowerCase()
+//     .trim();
 
-  // Filter results
-  const results = jsonData.filter((item) =>
-    Object.values(item).some(
-      (value) =>
-        typeof value === "string" && value.toLowerCase().includes(searchTerm)
-    )
-  );
+//   // Show indicator while searching
+//   showSearchingIndicator();
 
+//   // Load JSON data if not already loaded
+//   if (!jsonData) {
+//     try {
+//       const response = await fetch("/data/search-data.json");
+//       jsonData = await response.json();
+//     } catch (error) {
+//       console.error("Error loading JSON:", error);
+//       hideSearchingIndicator(); // Hide indicator on failure
+//       return;
+//     }
+//   }
+
+//   // Filter results
+//   const results = jsonData.filter((item) =>
+//     Object.values(item).some(
+//       (value) =>
+//         typeof value === "string" && value.toLowerCase().includes(searchTerm)
+//     )
+//   );
+
+//   // If no results, redirect to the homepage without parameters
+//   // if (results.length === 0) {
+//   //   hideSearchingIndicator(); // Hide indicator before redirect
+//   //   window.location.replace("https://classroom24h.github.io/game/404/");
+//   //   return;
+//   // }
+
+//   // Display search results if found
+//   displayResults(results);
+// }
+
+function displayResults(results) {
   // If no results, redirect to the homepage without parameters
   if (results.length === 0) {
     hideSearchingIndicator(); // Hide indicator before redirect
-    window.location.replace("https://classroom24h.github.io/");
+    window.location.replace("https://classroom24h.github.io/game/404/");
     return;
   }
-
-  // Display search results if found
-  displayResults(results);
-}
-
-function displayResults(results) {
   const resultsContainer = document.getElementById("searchResults");
   resultsContainer.innerHTML = "";
   if (results.length > 0) {
