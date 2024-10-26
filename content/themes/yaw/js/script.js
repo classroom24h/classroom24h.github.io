@@ -122,6 +122,26 @@ $(function () {
   // }
   function appendFetchedGames(data) {
     last_offset += data.length;
+    // const templateHTML = $(".item-append-template").html();
+    // data.forEach((item) => {
+    //   let rating = 0;
+    //   item["upvote"] = Number(item["upvote"]);
+    //   item["downvote"] = Number(item["downvote"]);
+    //   let totalRevs = item["upvote"] + item["downvote"];
+    //   if (totalRevs > 0) {
+    //     rating = Math.round(
+    //       (item["upvote"] / (item["upvote"] + item["downvote"])) * 5
+    //     );
+    //   }
+    //   let clonedHTML = templateHTML;
+    //   console.log(item["title"]);
+    //   clonedHTML = clonedHTML.replace(/{{slug}}/g, item["slug"]);
+    //   clonedHTML = clonedHTML.replace(/{{thumbnail}}/g, item["thumb"]);
+    //   clonedHTML = clonedHTML.replace(/{{title}}/g, item["title"]);
+    //   clonedHTML = clonedHTML.replace(/{{rating}}/g, rating);
+    //   const clonedElement = $(clonedHTML);
+    //   newGamesContainer.append(clonedElement);
+    // });
     const templateHTML = $(".item-append-template").html();
     data.forEach((item) => {
       let rating = 0;
@@ -134,13 +154,12 @@ $(function () {
         );
       }
       let clonedHTML = templateHTML;
-      console.log(item["title"]);
-      clonedHTML = clonedHTML.replace(/{{slug}}/g, item["slug"]);
-      clonedHTML = clonedHTML.replace(/{{thumbnail}}/g, item["thumb"]);
-      clonedHTML = clonedHTML.replace(/{{title}}/g, item["title"]);
-      clonedHTML = clonedHTML.replace(/{{rating}}/g, rating);
+      clonedHTML = clonedHTML.replace(/{{slug}}/g, item.slug);
+      clonedHTML = clonedHTML.replace(/{{thumbnail}}/g, item.thumb);
+      clonedHTML = clonedHTML.replace(/{{title}}/g, item.title);
       const clonedElement = $(clonedHTML);
-      newGamesContainer.append(clonedElement);
+      clonedElement.find("img").attr("src", item.thumb); // Ensure 'src' is set
+      $("#section-new-games").append(clonedElement);
     });
     if (data.length < load_amount) {
       $(".btn-load-more-games").remove();
