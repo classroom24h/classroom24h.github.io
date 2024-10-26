@@ -66,22 +66,22 @@ async function performSearch() {
     .value.toLowerCase()
     .trim();
 
-  // Ensure indicator is visible during search process.
+  // Show indicator while searching
   showSearchingIndicator();
 
-  // Fetch JSON data if not already loaded.
+  // Load JSON data if not already loaded
   if (!jsonData) {
     try {
       const response = await fetch("/data/search-data.json");
       jsonData = await response.json();
     } catch (error) {
       console.error("Error loading JSON:", error);
-      hideSearchingIndicator(); // Hide indicator if fetch fails.
+      hideSearchingIndicator(); // Hide indicator on failure
       return;
     }
   }
 
-  // Perform the search.
+  // Filter results
   const results = jsonData.filter((item) =>
     Object.values(item).some(
       (value) =>
@@ -89,14 +89,14 @@ async function performSearch() {
     )
   );
 
-  // If no results, redirect to the specified URL.
+  // If no results, redirect to the homepage without parameters
   if (results.length === 0) {
-    hideSearchingIndicator(); // Ensure indicator is hidden before redirection.
-    window.location.href = "https://classroom24h.github.io/";
+    hideSearchingIndicator(); // Hide indicator before redirect
+    window.location.replace("https://yummy-toast-unblocked.github.io/");
     return;
   }
 
-  // If results are found, display them.
+  // Display search results if found
   displayResults(results);
 }
 
