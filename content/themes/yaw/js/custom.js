@@ -92,7 +92,7 @@ async function performSearch() {
   // If no results, redirect to the homepage without parameters
   if (results.length === 0) {
     hideSearchingIndicator(); // Hide indicator before redirect
-    window.location.replace("https://yummy-toast-unblocked.github.io/");
+    window.location.replace("https://classroom24h.github.io/");
     return;
   }
 
