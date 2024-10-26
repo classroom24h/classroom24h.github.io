@@ -68,19 +68,32 @@ $(function () {
   //     }
   //   }
 
+  // async function fetchMoreGames(amount, sort_by) {
+  //   try {
+  //     const response = await $.ajax({
+  //       url: "https://classroom24h.github.io/includes/fetch.php",
+  //       type: "POST",
+  //       dataType: "json",
+  //       data: { amount: amount, offset: last_offset, sort_by: sort_by },
+  //     });
+  //     appendFetchedGames(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
   async function fetchMoreGames(amount, sort_by) {
     try {
-      const response = await $.ajax({
-        url: "https://classroom24h.github.io/includes/fetch.php",
-        type: "POST",
-        dataType: "json",
-        data: { amount: amount, offset: last_offset, sort_by: sort_by },
-      });
-      appendFetchedGames(response);
+      const response = await fetch(
+        "https://classroom24h.github.io/data/search-data.json"
+      );
+      if (!response.ok) throw new Error("Failed to fetch game data");
+      const data = await response.json();
+      appendFetchedGames(data.slice(last_offset, last_offset + amount));
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching games:", error);
     }
   }
+
   function appendFetchedGames(data) {
     last_offset += data.length;
     const templateHTML = $(".item-append-template").html();
