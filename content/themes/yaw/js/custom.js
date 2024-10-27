@@ -127,12 +127,12 @@ function displayResults(results) {
       }
     });
   }
-  // const searchAllLi = document.createElement("li");
-  // searchAllLi.className = "search-all";
-  // searchAllLi.textContent = "Search All";
-  // searchAllLi.addEventListener("click", function () {
-  //   document.querySelector(".search-bar").submit();
-  // });
+  const searchAllLi = document.createElement("li");
+  searchAllLi.className = "search-all";
+  searchAllLi.textContent = "Search All";
+  searchAllLi.addEventListener("click", function () {
+    document.querySelector(".search-bar").submit();
+  });
   resultsContainer.appendChild(searchAllLi);
   hideSearchingIndicator();
   resultsContainer.style.display = "block";
